@@ -100,4 +100,34 @@ async function legacy(client) {
     console.timeEnd("Legacy Load Time")
 }
 
-module.exports = { commands, events, legacy };
+async function buttons(client) {
+  console.time("Button Load Time")
+
+  await client.buttons.clear();
+  let buttons = new Array();
+
+  const files = await loader("Feature/Buttons");
+
+  for (const file of files) {
+    try {
+      const button = require(file);
+      client.buttons.set(button.name, button);
+
+      buttons.push({
+        Buttons: button.name,
+        Status: "Loaded"
+      });
+    } catch (error) {
+      console.error(error);
+      buttons.push({
+        Buttons: file.split("/").pop().slice(0, -3),
+        Status: "Failed",
+      });
+    }
+  }
+
+    console.table(buttons, ["Buttons", "Status"]);
+    console.timeEnd("Button Load Time")
+}
+
+module.exports = { commands, events, legacy, buttons };

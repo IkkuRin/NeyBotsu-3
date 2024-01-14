@@ -4,11 +4,11 @@ console.clear();
 console.log('Replit Started')
 
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
-const { Guilds, GuildMembers, GuildMessages, MessageContent } = GatewayIntentBits;
+const { Guilds, GuildMembers, GuildMessages, MessageContent, GuildBans, GuildVoiceStates } = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
 
 const client = new Client({
-  intents: [Guilds, GuildMembers, GuildMessages, MessageContent],
+  intents: [Guilds, GuildMembers, GuildMessages, MessageContent, GuildBans, GuildVoiceStates],
   partials: [User, Message, GuildMember, ThreadMember]
 });
 
@@ -22,6 +22,7 @@ client.legacy = new Collection();
 client.aliases = new Collection();
 client.events = new Collection();
 client.commands = new Collection();
+client.buttons = new Collection();
 
 events(client);
 

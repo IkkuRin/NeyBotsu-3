@@ -11,13 +11,15 @@ module.exports = {
     .setDescription('Choose Between Commands or Events to Reload. Leave Blank to Reload All')
     .addChoices(
       { name: 'Commands', value: 'cmd' },
-      { name: 'Events', value: 'evt' }
+      { name: 'Events', value: 'evt' },
+      { name: 'Legacy', value: 'lgc' },
+      { name: 'Buttons', value: 'btn' },
     )
   ),
   exec(client, interaction) {
     const { options } = interaction;
 
-    const { commands, events } = require('../../../Structure/Handlers/allInOneHandler');
+    const { commands, events, legacy, buttons } = require('../../../Structure/Handlers/allInOneHandler');
     
 
     const option = options.getString('option');
@@ -49,6 +51,15 @@ module.exports = {
       iconURL: client.user.displayAvatarURL({size: 1024, dynamic: true})
     })
 
+    const buttonsEmbed = new EmbedBuilder()
+    .setColor(client.gColor)
+    .setTitle('Reloaded!')
+    .setDescription('Bittons has been reloaded')
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({size: 1024, dynamic: true})
+    })
+
     switch(option) {
       case 'cmd': {
         interaction.reply({
@@ -57,6 +68,24 @@ module.exports = {
         })
 
         commands(client);
+      }
+        break;
+      case 'btn': {
+        interaction.reply({
+          embeds: [buttonsEmbed],
+          ephemeral: true
+        })
+
+        buttons(client);
+      }
+        break;
+      case 'lgc': {
+        interaction.reply({
+          embeds: [commandsEmbed],
+          ephemeral: true
+        })
+
+        legacy(client);
       }
         break;
       case 'evt': {
@@ -82,6 +111,8 @@ module.exports = {
 
         events(client);
         commands(client);
+        legacy(client);
+        buttons(client);
       }
         break;
     }

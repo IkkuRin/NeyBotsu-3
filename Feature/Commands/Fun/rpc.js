@@ -90,10 +90,8 @@ module.exports = {
         text: client.user.username,
         iconURL: client.user.displayAvatarURL({size: 1024, dynamic: true})
     })
-
-      interaction.reply({ embeds: [rpcEmbed] });
     }
 
     RPC(user, bot);
-  },
+  }
 };
