@@ -6,7 +6,6 @@ module.exports = {
   .setName('ping')
   .setDescription('Replies with Pong!'),
   exec(client, interaction) {
-
     function pingTime(params) {
       const ping = client.ws.ping + 'ms'
       const uptime = ms(client.uptime, { verbose: true })
@@ -28,27 +27,37 @@ module.exports = {
       iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true})
     })
 
-   const pingButton = new ButtonBuilder()
-    .setCustomId('rePingBtn')
-    .setLabel('Ping Again')
-    .setStyle('Success')
-    .setDisabled(false);
-
-    const row = new ActionRowBuilder()
-    .addComponents(pingButton)
-    const disabled = row.components[0].setDisabled(true);
+    const btn = new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId("rePingBtn")
+      .setLabel("Ping Again")
+      .setStyle("Primary")
+    )
+    const disabled = new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId("rePingBtn")
+      .setLabel("Ping Again")
+      .setStyle("Primary")
+      .setDisabled(true)
+    )
     
     interaction.reply({
       embeds: [pingEmbed],
-      components: [row]
+      components: [disabled]
     }).then(async (msg) => {
       const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
       setTimeout(async () => {
-        await msg.edit({components: [row]})
-        clearInterval(refresher)
+        await clearInterval(refresher)
+        msg.edit({components: [btn]})
       }, 30000);
 
-      setTimeout(async () => await msg.edit({components: [disabled]}), 60000 * 10);
+      setTimeout(async () => {
+        if (msg.components[0].components[0].disabled === false) return await msg.edit({components: [disabled]});
+
+        setTimeout(() => msg.edit({components: [disabled]}), 1000 * 2)
+      }, 60000 * 5);
       });
   }
 }

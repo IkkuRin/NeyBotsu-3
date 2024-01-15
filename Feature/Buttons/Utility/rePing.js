@@ -1,10 +1,10 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
+const ms = require('pretty-ms');
 
 module.exports = {
   name: "rePing",
   buttonId: "rePingBtn",
   async exec(client, interaction) {
-    const { message } = interaction;
     function pingTime(params) {
       const ping = client.ws.ping + 'ms'
       const uptime = ms(client.uptime, { verbose: true })
@@ -26,26 +26,32 @@ module.exports = {
       iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true})
     })
 
-    const pingBtn = new ButtonBuilder()
-    .setCustomId('rePingBtn')
-    .setLabel('Re-Ping')
-    .setStyle('Secondary')
-    .setDisabled(true)
     const row = new ActionRowBuilder()
-    .setComponents(pingBtn)
-
-    const activate = row.setComponents(pingBtn.setDisabled(false));
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId('rePingBtn')
+      .setLabel('Ping Again')
+      .setStyle('Primary')
+    )
+    const disabled = new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId("rePingBtn")
+      .setLabel("Ping Again")
+      .setStyle("Primary")
+      .setDisabled(true)
+    )
 
     interaction.update({
       embeds: [pingEmbed],
-      components: [row]
+      components: [disabled]
     })
     .then((msg) => {
       const refresher = setInterval(() => msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
-      setTimeout(() => {
-        clearInterval(refresher)
+      setTimeout(async () => {
+        await clearInterval(refresher)
         msg.edit({
-          components: [activate]
+          components: [row]
         })
       }, 30000);
   })

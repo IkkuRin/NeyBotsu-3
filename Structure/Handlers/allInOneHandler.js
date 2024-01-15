@@ -111,7 +111,7 @@ async function buttons(client) {
   for (const file of files) {
     try {
       const button = require(file);
-      client.buttons.set(button.name, button);
+      client.buttons.set(button.buttonId, button);
 
       buttons.push({
         Buttons: button.name,

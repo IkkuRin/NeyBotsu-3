@@ -53,7 +53,7 @@ setTimeout(() => {
   consoleWait(loadArr[5], 4000, 500, loadArr[6], true);
 }, 18000)
     setTimeout(() => {
-  consoleWait(loadArr[7], 6000, 500, loadArr[8]);
+  consoleWait(loadArr[7], 6000, 500, loadArr[8], true);
 }, 22000)
   },
 };
