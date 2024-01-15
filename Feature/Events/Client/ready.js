@@ -7,12 +7,10 @@ module.exports = {
 const { fg, bright } = require("../../../Structure/Function/consoleColor");
     const { consoleWait } = require("../../../Structure/Function/consoleLoading")
     const { commands, legacy, buttons } = require("../../../Structure/Handlers/allInOneHandler");
-    const { keeper } = require("../../../Structure/Function/onlineKeeper")
-
+    
     commands(client);
     legacy(client);
     buttons(client);
-    keeper(client);
 
     const activityArr = [
       user.username,

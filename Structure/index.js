@@ -2,6 +2,7 @@ process.on('unhandledRejection', (e) => console.error(e));
 
 console.clear();
 console.log('Replit Started')
+require('../Website/Server/express');
 
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const { Guilds, GuildMembers, GuildMessages, MessageContent, GuildBans, GuildVoiceStates } = GatewayIntentBits;
