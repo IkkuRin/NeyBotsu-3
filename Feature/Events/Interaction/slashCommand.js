@@ -11,17 +11,22 @@ module.exports = {
 
     const command = client.commands.get(interaction.commandName);
 
+    const devs = new Array();
+   client.settings.devsID.forEach(dev => {
+      devs.push(`@<${dev}>`)
+    })
+
     const outdatedEmbed = new EmbedBuilder()
     .setColor(client.gColor)
     .setTitle('Outdated Command!')
     .setDescription("The command you're trying to use is outdated and may not work anymore. Please contact the developer to get the issue fixed. Thank you!")
     .addFields({
         name: 'Contacts',
-        value: `Owner: <@${client.settings.ownerID}>\nDevs: <@${client.settings.devsID}>`
+        value: `Owner: <@${client.settings.ownerID}>\nDevs: <@${devs.join('\n')}>`
       },
       {
         name: 'Support Server',
-        value: `[Click Here](https://discord.gg/ServerCode)`
+        value: `[Click Here](${client.settings.supportServer})`
       })
     .setFooter({
       text: client.user.username,

@@ -1,4 +1,4 @@
-const { loader } = require('../Function/loader')
+const { loader } = require("../Function/loader");
 
 async function commands(client) {
   console.time("Commands Load Time");
@@ -20,7 +20,7 @@ async function commands(client) {
         Status: "Loaded",
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       commands.push({
         Command: file.split("/").pop().slice(0, -3),
         Status: "Failed",
@@ -49,7 +49,7 @@ async function events(client) {
 
       const target = event.rest ? client.rest : client;
       target[event.once ? "once" : "on"](event.type, exec);
-      
+
       client.events.set(event.type, exec);
 
       events.push({
@@ -69,7 +69,7 @@ async function events(client) {
 }
 
 async function legacy(client) {
-  console.time("Legacy Load Time")
+  console.time("Legacy Load Time");
 
   await client.legacy.clear();
   let legacies = new Array();
@@ -81,11 +81,14 @@ async function legacy(client) {
       const legacy = require(file);
       client.legacy.set(legacy.name, legacy);
 
-      if (legacy.aliases && Array.isArray(legacy.aliases)) legacy.aliases.forEach((alias) => client.aliases.set(alias, legacy.name));
-      
+      if (legacy.aliases && Array.isArray(legacy.aliases))
+        legacy.aliases.forEach((alias) =>
+          client.aliases.set(alias, legacy.name),
+        );
+
       legacies.push({
         Legacy: legacy.name,
-        Status: "Loaded"
+        Status: "Loaded",
       });
     } catch (error) {
       console.error(error);
@@ -96,12 +99,12 @@ async function legacy(client) {
     }
   }
 
-    console.table(legacies, ["Legacy", "Status"]);
-    console.timeEnd("Legacy Load Time")
+  console.table(legacies, ["Legacy", "Status"]);
+  console.timeEnd("Legacy Load Time");
 }
 
 async function buttons(client) {
-  console.time("Button Load Time")
+  console.time("Button Load Time");
 
   await client.buttons.clear();
   let buttons = new Array();
@@ -115,7 +118,7 @@ async function buttons(client) {
 
       buttons.push({
         Buttons: button.name,
-        Status: "Loaded"
+        Status: "Loaded",
       });
     } catch (error) {
       console.error(error);
@@ -126,8 +129,8 @@ async function buttons(client) {
     }
   }
 
-    console.table(buttons, ["Buttons", "Status"]);
-    console.timeEnd("Button Load Time")
+  console.table(buttons, ["Buttons", "Status"]);
+  console.timeEnd("Button Load Time");
 }
 
 module.exports = { commands, events, legacy, buttons };

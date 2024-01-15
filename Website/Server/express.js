@@ -6,11 +6,12 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use(express.static(process.cwd() + '/Website/FrontEnd/Invite'))
-
-app.use('/', (req, res) => {
-  res.sendFile(process.cwd() + '/Website/FrontEnd/Invite/index.html')
-});
+const landingRoute = require('./landing.js');
+app.use('/', landingRoute)
+const homepageRoute = require('./homepage.js');
+app.use('/homepage', homepageRoute)
+const inviteRoute = require('./invite.js');
+app.use('/invite', inviteRoute)
 
 app.listen(port, () => console.log(`Website is running on port ${port}`));
 

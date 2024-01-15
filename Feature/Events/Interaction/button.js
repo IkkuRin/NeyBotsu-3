@@ -7,22 +7,40 @@ module.exports = {
   * @param {ButtonInteraction} interaction
   */
   exec (interaction, client) {
-    console.log('Interaction Detected')
     if (!interaction.isButton()) return;
-    console.log('Bu5ton Pressed')
     const button = client.buttons.get(interaction.customId);
     if (!button) return;
-    console.log('Button Found')
 
+    const devs = new Array();
+   client.settings.devsID.forEach(dev => {
+      devs.push(`@<${dev}>`)
+    })
+    
     try {
-      console.log('Response Executed')
       button.exec(client, interaction);
     } catch (error) {
       console.error(error);
-      interaction.reply({
-        content: "An error occurred while executing the button.",
-        ephemeral: true
-      });
+      const errorEmbed = new EmbedBuilder()
+    .setColor(client.gColor)
+    .setTitle('An error occured!')
+    .setDescription("An error occured when executing this button. If this happened repeatedly, please contact the developer to get the issue fixed. Thank you!")
+    .addFields({
+        name: 'Contacts',
+        value: `Owner: <@${client.settings.ownerID}>\nDevs: ${devs.join('\n')}`
+      },
+      {
+        name: 'Support Server',
+        value: `[Click Here](${client.settings.supportServer})`
+      })
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })
+    });
+    
+    interaction.reply({
+      embeds: [errorEmbed],
+      ephemeral: true
+    });
     }
   }
 }

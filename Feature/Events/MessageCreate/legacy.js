@@ -20,6 +20,39 @@ module.exports = {
     if (!command) command = client.commands.get(client.aliases.get(cmd));
     if (!command) return;
 
+    try {
     command.exec(client, message, args)
+    } catch (e) {
+      console.error(e);
+
+      const devs = new Array();
+   client.settings.devsID.forEach(dev => {
+      devs.push(`#<${dev}>`)
+    });
+
+      const errorEmbed = new EmbedBuilder()
+    .setColor(client.gColor)
+    .setTitle('An error occured!')
+    .setDescription("An error occurred when trying to execute this commands. Please contact the developer if this happened repeatedly to get the issue fixed. Thank you!")
+    .addFields({
+        name: 'Contacts',
+        value: `Owner: <@${client.settings.ownerID}>\nDevs: <@${devs.join('\n')}>`
+      },
+      {
+        name: 'Support Server',
+        value: `[Click Here](${client.settings.supportServer})`
+      })
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })
+    });
+    
+    message.reply({
+      embeds: [errorEmbed],
+      allowedMentions: {
+        repliedUser: false
+      }
+    }).then((msg) => setTimeout(() => msg.delete(), 10000));
+    }
   }
 }

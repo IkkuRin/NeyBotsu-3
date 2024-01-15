@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "web": "npx nodemon Website/Server/express.js"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +20,8 @@
     "pretty-ms": "^7.0.1",
     "randexp": "^0.5.3",
     "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }

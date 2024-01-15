@@ -48,8 +48,8 @@ module.exports = {
       components: [disabled]
     }).then(async (msg) => {
       const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
-      setTimeout(async () => {
-        await clearInterval(refresher)
+      setTimeout(() => {
+        clearInterval(refresher)
         msg.edit({components: [btn]})
       }, 30000);
 
