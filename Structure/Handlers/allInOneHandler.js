@@ -98,4 +98,4 @@ async function buttons(client) {
   console.timeEnd("Button Load Time");
 }
 
-module.exports = { commands, events, legacy, buttons };
+module.exports = { commands, events, buttons };

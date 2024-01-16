@@ -1,5 +1,8 @@
 process.on('unhandledRejection', (e) => console.error(e));
 
+const { startUptime } = require("repl.uptime");
+startUptime();
+
 console.clear();
 console.log('Replit Started')
 require('../Website/Server/express');

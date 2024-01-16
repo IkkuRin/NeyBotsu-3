@@ -6,10 +6,9 @@ module.exports = {
     const { guilds, user } = client;
 const { fg, bright } = require("../../../Structure/Function/consoleColor");
     const { consoleWait } = require("../../../Structure/Function/consoleLoading")
-    const { commands, legacy, buttons } = require("../../../Structure/Handlers/allInOneHandler");
+    const { commands, buttons } = require("../../../Structure/Handlers/allInOneHandler");
     
     commands(client);
-    legacy(client);
     buttons(client);
 
     const activityArr = [

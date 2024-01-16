@@ -3,12 +3,12 @@ modules = ["nodejs-20:v8-20230920-bd784b9"]
 hidden = [".config", "package-lock.json"]
 
 [nix]
-channel = "stable-23_05"
+channel = "stable-22_11"
 
 [unitTest]
 language = "nodejs"
 
 [deployment]
-run = ["node", "index.js"]
+run = "node -r repl.uptime/start Structure/index.js"
 deploymentTarget = "cloudrun"
 ignorePorts = false

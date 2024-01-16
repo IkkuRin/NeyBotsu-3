@@ -19,6 +19,7 @@
     "node-fetch": "^3.2.6",
     "pretty-ms": "^7.0.1",
     "randexp": "^0.5.3",
+    "repl.uptime": "^0.0.12",
     "util": "^0.12.5"
   },
   "devDependencies": {

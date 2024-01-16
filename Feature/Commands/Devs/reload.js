@@ -12,14 +12,13 @@ module.exports = {
     .addChoices(
       { name: 'Commands', value: 'cmd' },
       { name: 'Events', value: 'evt' },
-      { name: 'Legacy', value: 'lgc' },
       { name: 'Buttons', value: 'btn' },
     )
   ),
   exec(client, interaction) {
     const { options } = interaction;
 
-    const { commands, events, legacy, buttons } = require('../../../Structure/Handlers/allInOneHandler');
+    const { commands, events, buttons } = require('../../../Structure/Handlers/allInOneHandler');
     
 
     const option = options.getString('option');
@@ -79,15 +78,6 @@ module.exports = {
         buttons(client);
       }
         break;
-      case 'lgc': {
-        interaction.reply({
-          embeds: [commandsEmbed],
-          ephemeral: true
-        })
-
-        legacy(client);
-      }
-        break;
       case 'evt': {
         for (const [key, value] of client.events)
           client.removeListener(`${key}`, value, true);
@@ -111,7 +101,6 @@ module.exports = {
 
         events(client);
         commands(client);
-        legacy(client);
         buttons(client);
       }
         break;

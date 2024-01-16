@@ -82,9 +82,9 @@ module.exports = {
     
     try {
       button.exec(client, interaction);
-      if (!command.cooldown) return;
-      cooldown.set(`${button.name}:${interaction.user.id}`, Date.now() + command.cooldown);
-      setTimeout(() => cooldown.delete(`${button.name}:${interaction.user.id}`), command.cooldown)
+      if (!button.cooldown) return;
+      cooldown.set(`${button.name}:${interaction.user.id}`, Date.now() + button.cooldown);
+      setTimeout(() => cooldown.delete(`${button.name}:${interaction.user.id}`), button.cooldown)
     } catch (error) {
       console.error(error);
       const errorEmbed = new EmbedBuilder()
