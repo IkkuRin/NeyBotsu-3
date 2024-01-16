@@ -4,7 +4,7 @@ const path = require('path')
 async function deleteCache(file) {
   const filePath = path.resolve(file);
   if (require.cache[filePath]) { 
-    delete require.cache[filePath];
+    delete require.cache[filePath]
   }
 }
 

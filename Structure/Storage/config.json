@@ -1,13 +1,9 @@
 {
   "prefix": "nb!",
   "ownerID": "1161954482347847691",
-  "devsID": "1161954482347847691",
+  "devsID": [
+    "1161954482347847691"
+  ],
   "globalColor": "#5c18a1",
-  "keepOnline": {
-    "enabled": true,
-    "channel": "1189297412653731956",
-    "message": "1196094168590716940", 
-    "interval": 5
-  },
   "supportServer": "https://discord.gg/qsayBrASr8"
 }

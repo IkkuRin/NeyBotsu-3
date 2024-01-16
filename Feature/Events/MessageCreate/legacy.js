@@ -1,4 +1,6 @@
-const { Permissions, EmbedBuilder, Message } = require('discord.js');
+const { PermissionsBitField, EmbedBuilder, Message, Collection } = require('discord.js');
+const ms = require('pretty-ms')
+const cooldown = new Collection();
 
 module.exports = {
   name: 'Legacy',
@@ -16,12 +18,77 @@ module.exports = {
 
     const cmd = args.shift().toLowerCase();
 
-    let command = client.commands.get(cmd);
-    if (!command) command = client.commands.get(client.aliases.get(cmd));
+    let command = client.legacy.get(cmd);
+    if (!command) command = client.legacy.get(client.aliases.get(cmd));
     if (!command) return;
+
+    let timeLeft = cooldown.get(`${command.name}:${message.author.id}`) ? ms(cooldown.get(`${command.name}:${message.author.id}`) - Date.now(), {compact: true}):null;
+    const cooldownEmbed = new EmbedBuilder()
+    .setColor(client.gColor)
+    .setTitle('Chill down!')
+    .setDescription('This commands is on cooldown, spam is not cool dude. Please wait for a while before using this command again')
+    .addFields(
+      {
+        name: 'Cooldowns left',
+        value: `\` ${timeLeft} \``
+      }
+    )
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({size:1024,dynamic:true})
+    });
+
+    if (command.userPerms && !message.member.permissions.has(PermissionsBitField.resolve(command.userPerms || []))) {
+          const userMissingPermsEmbed = new EmbedBuilder()
+    .setColor(client.gColor)
+    .setTitle('Missing Permissions!')
+    .setDescription('You are missing the required permissions to use this commands')
+    .addFields(
+      {
+        name: 'Required Permission',
+        value: `\` ${command.userPerms.join('\n')} \``
+      }
+    )
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({size:1024,dynamic:true})
+    });
+      
+      return message.reply({
+      embeds: [userMissingPermsEmbed]
+    }).then(m => setTimeout(() => m.delete(), 15000))
+  };
+    if (command.botPerms && !message.guild.members.me.permissions.has(PermissionsBitField.resolve(command.botPerms || []))) {
+      const botMissingPermsEmbed = new EmbedBuilder()
+      .setColor(client.gColor)
+      .setTitle('Missing Permissions!')
+      .setDescription('I am missing the required permissions to run this commands')
+    .addFields(
+      {
+        name: 'Required Permission',
+        value: `\` ${command.botPerms.join('\n')} \``
+      }
+    )
+    .setFooter({
+      text: client.user.username,
+      iconURL: client.user.displayAvatarURL({size:1024,dynamic:true})
+    });
+
+      
+      return message.reply({
+      embeds: [botMissingPermsEmbed]
+    }).then(m => setTimeout(() => m.delete(), 15000))
+    }
+
+    if (cooldown.has(`${command.name}:${message.author.id}`)) return message.reply({
+      embeds: [cooldownEmbed]
+    }).then(m => setTimeout(() => m.delete(), cooldown.get(`${command.name}:${message.author.id}`) - Date.now()))
 
     try {
     command.exec(client, message, args)
+      if (!command.cooldown) return;
+      cooldown.set(`${command.name}:${message.author.id}`, Date.now() + command.cooldown);
+      setTimeout(() => cooldown.delete(`${command.name}:${message.author.id}`), command.cooldown)
     } catch (e) {
       console.error(e);
 
@@ -52,7 +119,7 @@ module.exports = {
       allowedMentions: {
         repliedUser: false
       }
-    }).then((msg) => setTimeout(() => msg.delete(), 10000));
+    }).then((msg) => setTimeout(() => msg.delete(), 30000));
     }
   }
 }

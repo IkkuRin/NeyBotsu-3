@@ -1,10 +1,11 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const ms = require('pretty-ms');
-
 module.exports = {
   name: 'ping',
   aliases: ['p'],
   description: 'Replies with Pong!',
+  userPerms: [],
+  botPerms: [],
   exec(client, message, args) {
     function pingTime(params) {
       const ping = client.ws.ping + 'ms'
@@ -17,7 +18,7 @@ module.exports = {
         break;
       }
     }
-
+    
     const pingEmbed = new EmbedBuilder()
     .setColor(client.gColor)
     .setTitle('🏓 | Pong!')
@@ -26,15 +27,38 @@ module.exports = {
       text: client.user.username,
       iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true})
     })
-    
+
+    const btn = new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId("rePingBtn")
+      .setLabel("Ping Again")
+      .setStyle("Primary")
+    )
+    const disabled = new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+      .setCustomId("rePingBtn")
+      .setLabel("Ping Again")
+      .setStyle("Primary")
+      .setDisabled(true)
+    )
+
     message.reply({
       embeds: [pingEmbed],
-      allowedMentions: {
-        repliedUser: false
-      }
-    }).then(msg => {
-      const refresher = setInterval(() => msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
-      setTimeout(() => clearInterval(refresher), 60000)
+      components: [disabled]
+    }).then(async (msg) => {
+      const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
+      setTimeout(() => {
+        clearInterval(refresher)
+        msg.edit({components: [btn]})
+      }, 30000);
+
+      setTimeout(async () => {
+        if (msg.components[0].components[0].disabled === false) return await msg.edit({components: [disabled]});
+
+        setTimeout(() => msg.edit({components: [disabled]}), 1000 * 2)
+      }, 60000 * 5);
       });
   }
 }

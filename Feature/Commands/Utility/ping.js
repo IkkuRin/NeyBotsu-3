@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder } = r
 const ms = require('pretty-ms');
   
 module.exports = {
+  cooldown: 30000,
   data: new SlashCommandBuilder()
   .setName('ping')
   .setDescription('Replies with Pong!'),
