@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
+  cooldown: 5000,
   data: new SlashCommandBuilder()
     .setName("rpc")
     .setDescription("Play Rock Paper Scissors with the Bot!")
@@ -90,6 +91,10 @@ module.exports = {
         text: client.user.username,
         iconURL: client.user.displayAvatarURL({size: 1024, dynamic: true})
     })
+
+      interaction.reply({
+        embeds: [rpcEmbed]
+      })
     }
 
     RPC(user, bot);

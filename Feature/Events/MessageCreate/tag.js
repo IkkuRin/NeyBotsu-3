@@ -19,18 +19,44 @@ module.exports = {
     const aboutButton = new ButtonBuilder()
     .setCustomId('tag:about')
     .setLabel('About')
+    .setStyle('Primary')
+    .setEmoji('💜');
     const helpButton = new ButtonBuilder()
     .setCustomId('tag:help')
-    .setLabel('Help');
+    .setLabel('Help')
+    .setStyle('Primary')
+    .setEmoji('🔎');
     const otherButton = new ButtonBuilder()
     .setCustomId('tag:other')
-    .setLabel('Other');
+    .setLabel('Other')
+    .setStyle('Primary')
+    .setEmoji('❔');
     const row = new ActionRowBuilder()
     .addComponents(aboutButton, helpButton, otherButton);
 
     message.reply({
       embeds: [tagEmbed],
       components: [row]
+    }).then(async (msg) => {
+      const collector = msg.createMessageComponentCollector({
+        idle: 60000
+      });
+
+      collector.on('collect', async (i) => {
+        await i.deferUpdate();
+        i.editReply({
+          embeds: [
+            new EmbedBuilder()
+            .setColor(client.gColor)
+            .setDescription('Oops! This feature is not available yet!')
+          ]
+        })
+      })
+
+      collector.on('end', () => {
+        row.components.forEach((c) => c.setDisabled(true))
+        msg.edit({embeds: [tagEmbed], components: [row]})
+      })
     })
   }
 }

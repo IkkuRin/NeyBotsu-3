@@ -19,14 +19,16 @@ module.exports = {
       }
     }
 
-    const pingEmbed = new EmbedBuilder()
-    .setColor(client.gColor)
-    .setTitle('🏓 | Pong!')
-    .setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\` ${pingTime('uptime')} \`\`\``)
-    .setFooter({
-      text: client.user.username,
-      iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true})
-    })
+    const pingEmbed = () => {
+      return new EmbedBuilder()
+      .setColor(client.gColor)
+      .setTitle('🏓 | Pong!')
+      .setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\` ${pingTime('uptime')} \`\`\``)
+      .setFooter({
+        text: client.user.username,
+        iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true})
+      })
+    };
 
     const btn = new ActionRowBuilder()
     .addComponents(
@@ -45,20 +47,31 @@ module.exports = {
     )
     
     interaction.reply({
-      embeds: [pingEmbed],
+      embeds: [pingEmbed()],
       components: [disabled]
     }).then(async (msg) => {
-      const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed.setDescription(`Ping: \n\`\`\`${pingTime('ping')}\`\`\`\nUptime: \`\`\`${pingTime('uptime')}\`\`\``)]}), 2500);
+      const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed()]}), 2500);
       setTimeout(() => {
         clearInterval(refresher)
         msg.edit({components: [btn]})
       }, 30000);
 
-      setTimeout(async () => {
-        if (msg.components[0].components[0].disabled === false) return await msg.edit({components: [disabled]});
+      const collector = msg.createMessageComponentCollector({idle: 60000})
 
-        setTimeout(() => msg.edit({components: [disabled]}), 1000 * 2)
-      }, 60000 * 5);
+      collector.on('collect', async (i) => {
+        await i.update({embeds: [pingEmbed()], components: [disabled]});
+        
+        const refresher = setInterval(async () => await msg.edit({embeds: [pingEmbed()]}), 2500);
+        
+        setTimeout(() => {
+       clearInterval(refresher)
+       msg.edit({components: [btn]})
+      }, 30000);
       });
+
+      collector.on('end', () => {
+        msg.edit({components: [disabled]})
+      })
+   });
   }
 }

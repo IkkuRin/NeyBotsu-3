@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, EmbedBuilder, Collection } = require('discord.js');
+const { ChatInputCommandInteraction, EmbedBuilder, Collection, PermissionsBitField } = require('discord.js');
 const ms = require('pretty-ms');
 const cooldown = new Collection();
 
@@ -12,6 +12,8 @@ module.exports = {
     if (interaction.isChatInputCommand()) {
 
     const command = client.commands.get(interaction.commandName);
+
+      const coolId = `${command.data.name}_${interaction.user.id}`
 
     const devs = new Array();
    client.settings.devsID.forEach(dev => {
@@ -49,7 +51,7 @@ module.exports = {
       iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })
     });
 
-    let timeLeft = cooldown.get(`${command.name}:${interaction.user.id}`) ? ms(cooldown.get(`${command.name}:${interaction.user.id}`) - Date.now(), {compact: true}):null;
+    let timeLeft = cooldown.get(coolId) ? ms(cooldown.get(coolId) - Date.now(), {compact: true}):null;
     const cooldownEmbed = new EmbedBuilder()
     .setColor(client.gColor)
     .setTitle('Chill down!')
@@ -70,15 +72,17 @@ module.exports = {
       ephemeral: true
     });
 
-    if (cooldown.has(`${command.name}:${interaction.user.id}`)) return interaction.reply({
+    if (cooldown.has(coolId)) return interaction.reply({
       embeds: [cooldownEmbed]
-    }).then(m => setTimeout(() => m.delete(), cooldown.get(`${command.name}:${interaction.user.id}`) - Date.now()))
+    }).then(m => setTimeout(() => m.delete(), cooldown.get(coolId) - Date.now()))
 
     try {
     command.exec(client, interaction);
-    if (!command.cooldown) return;
-      cooldown.set(`${command.name}:${interaction.user.id}`, Date.now() + command.cooldown);
-      setTimeout(() => cooldown.delete(`${command.name}:${interaction.user.id}`), command.cooldown)
+      
+      if (!command.cooldown) return;
+      
+      cooldown.set(coolId, Date.now() + command.cooldown);
+      setTimeout(() => cooldown.delete(coolId), command.cooldown)
     } catch (e) {
       const devs = new Array();
    client.settings.devsID.forEach(dev => {
@@ -120,7 +124,9 @@ module.exports = {
       devs.push(`@<${dev}>`)
     })
 
-    let timeLeft = cooldown.get(`${button.id}:${interaction.user.id}`) ? ms(cooldown.get(`${button.id}:${interaction.user.id}`) - Date.now(), {compact: true}):null;
+      const coolId = `${button.id}:${interaction.user.id}`
+
+    let timeLeft = cooldown.get(coolId) ? ms(cooldown.get(coolId) - Date.now(), {compact: true}):null;
         const cooldownEmbed = new EmbedBuilder()
     .setColor(client.gColor)
     .setTitle('Chill down!')
@@ -178,15 +184,15 @@ module.exports = {
     }).then(m => setTimeout(() => m.delete(), 15000))
     }
 
-    if (cooldown.has(`${button.name}:${interaction.user.id}`)) return message.reply({
+    if (cooldown.has(coolId)) return message.reply({
       embeds: [cooldownEmbed]
-    }).then(m => setTimeout(() => m.delete(), cooldown.get(`${button}:${interaction.user.id}`) - Date.now()))
+    }).then(m => setTimeout(() => m.delete(), cooldown.get(coolId) - Date.now()))
     
     try {
       button.exec(client, interaction);
       if (!button.cooldown) return;
-      cooldown.set(`${button.name}:${interaction.user.id}`, Date.now() + button.cooldown);
-      setTimeout(() => cooldown.delete(`${button.name}:${interaction.user.id}`), button.cooldown)
+      cooldown.set(coolId, Date.now() + button.cooldown);
+      setTimeout(() => cooldown.delete(coolId), button.cooldown)
     } catch (error) {
       console.error(error);
       const errorEmbed = new EmbedBuilder()
