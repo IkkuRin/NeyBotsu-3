@@ -79,29 +79,23 @@ module.exports = {
       }
         break;
       case 'evt': {
-        for (const [key, value] of client.events)
-          client.removeListener(`${key}`, value, true);
+        events(client);
         
         interaction.reply({
           embeds: [eventsEmbed],
           ephemeral: true
         });
-
-        events(client);
       }
         break;
       default: {
-        for (const [key, value] of client.events)
-          client.removeListener(`${key}`, value, true);
+        events(client);
+        commands(client);
+        buttons(client);
         
         interaction.reply({
           embeds: [allEmbed],
           ephemeral: true
         });
-
-        events(client);
-        commands(client);
-        buttons(client);
       }
         break;
     }

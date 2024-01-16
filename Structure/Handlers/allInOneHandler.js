@@ -37,6 +37,10 @@ async function commands(client) {
 async function events(client) {
   console.time("Events Load Time");
 
+  for (const [key, value] of client.events) {
+  await client.removeListener(`${key}`, value, true);
+  }
+  await client.events.clear;
   client.events = new Map();
   const events = new Array();
 
