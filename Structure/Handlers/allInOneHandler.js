@@ -68,41 +68,6 @@ async function events(client) {
   console.timeEnd("Events Load Time");
 }
 
-async function legacy(client) {
-  console.time("Legacy Load Time");
-
-  await client.legacy.clear();
-  let legacies = new Array();
-
-  const files = await loader("Feature/Legacy");
-
-  for (const file of files) {
-    try {
-      const legacy = require(file);
-      client.legacy.set(legacy.name, legacy);
-
-      if (legacy.aliases && Array.isArray(legacy.aliases))
-        legacy.aliases.forEach((alias) =>
-          client.aliases.set(alias, legacy.name),
-        );
-
-      legacies.push({
-        Legacy: legacy.name,
-        Status: "Loaded",
-      });
-    } catch (error) {
-      console.error(error);
-      legacies.push({
-        Legacy: file.split("/").pop().slice(0, -3),
-        Status: "Failed",
-      });
-    }
-  }
-
-  console.table(legacies, ["Legacy", "Status"]);
-  console.timeEnd("Legacy Load Time");
-}
-
 async function buttons(client) {
   console.time("Button Load Time");
 
