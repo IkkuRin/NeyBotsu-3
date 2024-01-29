@@ -11,6 +11,8 @@ let dataset = loadDataset(); // Load the dataset from the dataset.json file
 
 let model;
 
+//loadModel()
+
 module.exports = {
   name: "ChatBot",
   type: "messageCreate",
@@ -20,7 +22,7 @@ module.exports = {
     if (message.channel.id !== cli.settings.chatbot.channelId) return;
     let selflearn = cli.settings.chatbot.selfLearn;
 
-    message.channel.startTyping();
+    await message.channel.sendTyping();
 
     const content = message.content.toLowerCase();
     const categories = Object.keys(dataset);
@@ -39,8 +41,7 @@ module.exports = {
     console.log("Chosen Category:", highestCategory);
     console.log("Bot Response:", response);
 
-    message.channel.stopTyping();
-    message.channel.send(response);
+    await message.channel.send(response);
   },
 };
 
