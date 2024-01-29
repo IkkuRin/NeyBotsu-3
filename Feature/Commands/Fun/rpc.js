@@ -16,8 +16,8 @@ module.exports = {
           { name: "✂️ | Scissor", value: "✂️ Scissor" },
         ),
     ),
-  exec(client, interaction) {
-    const { options } = interaction;
+  exec(cli, inter) {
+    const { options } = inter;
 
     let Arr = ["🪨 Rock", "📄 Paper", "✂️ Scissor"];
     let user = options.getString("choices");
@@ -69,34 +69,34 @@ module.exports = {
       }
 
       const rpcEmbed = new EmbedBuilder()
-      .setColor(client.gColor)
-      .setTitle("Results!")
-      .addFields(
-        {
-          name: "You",
-          value: `\`\`\` ${user} \`\`\``,
-          inline: true
-        },
-        {
-          name: "Bot",
-          value: `\`\`\` ${bot} \`\`\``,
-          inline: true
-        },
-        {
-          name: "Final Result",
-          value: `\`\`\` ${result != "Tie" ? `You ${result}!` : `Both Tied!`} \`\`\``
-        }
-      )
-      .setFooter({
-        text: client.user.username,
-        iconURL: client.user.displayAvatarURL({size: 1024, dynamic: true})
-    })
+        .setColor(cli.color)
+        .setTitle("Results!")
+        .addFields(
+          {
+            name: "You",
+            value: `\`\`\` ${user} \`\`\``,
+            inline: true,
+          },
+          {
+            name: "Bot",
+            value: `\`\`\` ${bot} \`\`\``,
+            inline: true,
+          },
+          {
+            name: "Final Result",
+            value: `\`\`\` ${result != "Tie" ? `You ${result}!` : `Both Tied!`} \`\`\``,
+          },
+        )
+        .setFooter({
+          text: cli.user.username,
+          iconURL: cli.user.displayAvatarURL({ size: 1024, dynamic: true }),
+        });
 
-      interaction.reply({
-        embeds: [rpcEmbed]
-      })
+      inter.reply({
+        embeds: [rpcEmbed],
+      });
     }
 
     RPC(user, bot);
-  }
+  },
 };

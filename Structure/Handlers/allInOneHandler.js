@@ -30,6 +30,9 @@ async function commands(client) {
 
   client.application.commands.set(commandsArray);
 
+  !commands.length
+    ? commands.push({ Command: "Empty", Status: "No Commands Detected" })
+    : commands;
   console.table(commands, ["Command", "Status"]);
   console.timeEnd("Commands Load Time");
 }
@@ -38,7 +41,7 @@ async function events(client) {
   console.time("Events Load Time");
 
   for (const [key, value] of client.events) {
-  await client.removeListener(`${key}`, value, true);
+    await client.removeListener(`${key}`, value, true);
   }
   await client.events.clear;
   client.events = new Map();
@@ -68,6 +71,10 @@ async function events(client) {
       });
     }
   }
+
+  !events.length
+    ? events.push({ Event: "Empty", Status: "No Events Detected" })
+    : events;
   console.table(events, ["Event", "Status"]);
   console.timeEnd("Events Load Time");
 }
@@ -98,6 +105,9 @@ async function buttons(client) {
     }
   }
 
+  !buttons.length
+    ? buttons.push({ Buttons: "Empty", Status: "No Button Detected" })
+    : buttons;
   console.table(buttons, ["Buttons", "Status"]);
   console.timeEnd("Button Load Time");
 }
