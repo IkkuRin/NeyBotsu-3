@@ -135,7 +135,7 @@ module.exports = {
               text: "You can close this message window now",
             });
 
-          buttons.components.forEach(c => c.setDisabled(true));
+          buttons.components.forEach((c) => c.setDisabled(true));
 
           msg.edit({
             embeds: [noInteractionEmbed],

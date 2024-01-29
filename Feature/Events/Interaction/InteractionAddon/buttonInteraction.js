@@ -148,23 +148,25 @@ async function ButtonInteraction(inter, cli) {
         ephemeral: true,
       })
       .then(async (msg) => {
-        const filters = async i => {
+        const filters = async (i) => {
           await i.deferUpdate();
-          return i.customId == "cd:mention" && i.user.id == inter.user.id
+          return i.customId == "cd:mention" && i.user.id == inter.user.id;
         };
         let mention = false;
         let nestedInter;
-        msg.awaitMessageComponent({
-          filter: filters,
-          time: 1000 * 60 * 5
-        }).then(i => {
-          nestedInter = i;
-          mentionButtons.components.forEach((c) => c.setDisabled(true));
-          mention = true;
-          i.editReply({
-            components: [mentionButtons],
+        msg
+          .awaitMessageComponent({
+            filter: filters,
+            time: 1000 * 60 * 5,
+          })
+          .then((i) => {
+            nestedInter = i;
+            mentionButtons.components.forEach((c) => c.setDisabled(true));
+            mention = true;
+            i.editReply({
+              components: [mentionButtons],
+            });
           });
-        });
 
         setTimeout(async () => {
           !msg ? null : msg.delete();

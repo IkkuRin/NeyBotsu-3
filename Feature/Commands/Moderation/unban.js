@@ -54,7 +54,7 @@ module.exports = {
         .setPlaceholder("Select a user")
         .addOptions(memberList)
         .setMinValues(1)
-        .setMaxValues(1)
+        .setMaxValues(1),
     );
 
     inter
@@ -157,9 +157,9 @@ module.exports = {
             });
 
           switch (true) {
-            case (msgC.components[0].components.type == "StringSelectMenu"):
-          };
-          
+            case msgC.components[0].components.type == "StringSelectMenu":
+          }
+
           msg.edit({
             embeds: [noInteractionEmbed],
             components: [],

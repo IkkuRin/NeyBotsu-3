@@ -55,7 +55,7 @@ async function SlashInteraction(inter, cli) {
     )
     .addFields({
       name: "Cooldown ends in",
-      value: `\` ${cdLeft ? ms(cdLeft, { compact: true }):null} \``,
+      value: `\` ${cdLeft ? ms(cdLeft, { compact: true }) : null} \``,
     })
     .setFooter({
       text: cli.user.username,
@@ -90,29 +90,31 @@ async function SlashInteraction(inter, cli) {
         ephemeral: true,
       })
       .then(async (msg) => {
-        const filters = async i => {
+        const filters = async (i) => {
           await i.deferUpdate();
-          return i.customId == "cd:mention" && i.user.id == inter.user.id
+          return i.customId == "cd:mention" && i.user.id == inter.user.id;
         };
         let mention = false;
         let nestedInter;
-        msg.awaitMessageComponent({
-          filter: filters,
-          time: 1000 * 60 * 5
-        }).then(i => {
-          nestedInter = i;
-          mentionButtons.components.forEach((c) => c.setDisabled(true));
-          mention = true;
-          i.editReply({
-            components: [mentionButtons],
+        msg
+          .awaitMessageComponent({
+            filter: filters,
+            time: 1000 * 60 * 5,
+          })
+          .then((i) => {
+            nestedInter = i;
+            mentionButtons.components.forEach((c) => c.setDisabled(true));
+            mention = true;
+            i.editReply({
+              components: [mentionButtons],
+            });
           });
-        });
 
         setTimeout(async () => {
           !msg ? null : msg.delete();
           if (mention == true)
             await channel.send(
-              `${nestedInter.member} Your cooldown for </${inter.commandName + ':' + inter.commandId}> has ended!`,
+              `${nestedInter.member} Your cooldown for </${inter.commandName + ":" + inter.commandId}> has ended!`,
             );
         }, cdLeft);
       });

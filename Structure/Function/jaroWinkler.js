@@ -1,4 +1,4 @@
-function JaroWinklerDistance (str1, str2) {
+function JaroWinklerDistance(str1, str2) {
   let m = 0;
 
   if (str1.length === 0 || str2.length === 0) {
@@ -17,7 +17,11 @@ function JaroWinklerDistance (str1, str2) {
       high = i + distance <= str2.length ? i + distance : str2.length - 1;
 
     for (j = low; j <= high; j++) {
-      if (str1Matches[i] !== true && str2Matches[j] !== true && str1[i] === str2[j]) {
+      if (
+        str1Matches[i] !== true &&
+        str2Matches[j] !== true &&
+        str1[i] === str2[j]
+      ) {
         m++;
         str1Matches[i] = str2Matches[j] = true;
         break;
@@ -46,7 +50,8 @@ function JaroWinklerDistance (str1, str2) {
     }
   }
 
-  let strength = (m / str1.length + m / str2.length + (m - n_trans / 2) / m) / 3,
+  let strength =
+      (m / str1.length + m / str2.length + (m - n_trans / 2) / m) / 3,
     l = 0,
     p = 0.1;
 
@@ -57,6 +62,6 @@ function JaroWinklerDistance (str1, str2) {
     strength = strength + l * p * (1 - strength);
   }
   return strength;
-};
+}
 
 module.exports = JaroWinklerDistance;

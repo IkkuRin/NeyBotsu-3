@@ -2,9 +2,9 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "Structure/index.js",
   "scripts": {
-    "web": "npx nodemon Website/Server/express.js"
+    "web": "npx nodemon Website/Server/express.js",
     "format-all": "npx prettier --write ."
   },
   "keywords": [],
@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "prettier": "^2.7.1"
+    "prettier": "^3.2.4"
   }
 }

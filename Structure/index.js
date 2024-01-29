@@ -1,24 +1,43 @@
-process.on('unhandledRejection', (e) => console.error(e));
+process.on("unhandledRejection", (e) => console.error(e));
 
 const { startUptime } = require("repl.uptime");
 startUptime();
 
 console.clear();
-console.log('Replit Started')
-require('../Website/Server/express');
+console.log("Replit Started");
+require("../Website/Server/express");
 
-const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
-const { Guilds, GuildMembers, GuildMessages, MessageContent, GuildBans, GuildVoiceStates } = GatewayIntentBits;
+const {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  Partials,
+} = require("discord.js");
+const {
+  Guilds,
+  GuildMembers,
+  GuildMessages,
+  MessageContent,
+  GuildBans,
+  GuildVoiceStates,
+} = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
 
 const client = new Client({
-  intents: [Guilds, GuildMembers, GuildMessages, MessageContent, GuildBans, GuildVoiceStates],
-  partials: [User, Message, GuildMember, ThreadMember]
+  intents: [
+    Guilds,
+    GuildMembers,
+    GuildMessages,
+    MessageContent,
+    GuildBans,
+    GuildVoiceStates,
+  ],
+  partials: [User, Message, GuildMember, ThreadMember],
 });
 
-const { events } = require('./Handlers/allInOneHandler')
+const { events } = require("./Handlers/allInOneHandler");
 
-client.settings = require('./Storage/config.json')
+client.settings = require("./Storage/config.json");
 client.gColor = client.settings.globalColor;
 client.prefix = client.settings.prefix;
 
@@ -30,5 +49,4 @@ client.buttons = new Collection();
 
 events(client);
 
-client.login(process.env.Token)
-  .catch(e => console.error(e));
+client.login(process.env.Token).catch((e) => console.error(e));
