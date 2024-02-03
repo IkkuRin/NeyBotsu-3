@@ -1,0 +1,145 @@
+{
+    "greetings": {
+        "patterns": [
+            "hi",
+            "hello",
+            "hey there",
+            "greetings",
+            "good day",
+            "hello, what's up",
+            "hey",
+            "hiya",
+            "greetings and salutations",
+            "howdy",
+            "hi, nice to meet you",
+            "hello, good to see you",
+            "hey, what's going on"
+        ],
+        "responses": [
+            {
+                "query": "hi",
+                "response": "Hi!"
+            },
+            {
+                "query": "hello",
+                "response": "Ellow~"
+            },
+            {
+                "query": "hey",
+                "response": "Ey~"
+            },
+            {
+                "query": "hey, can you help me",
+                "response": "Ey, how can I help you!"
+            },
+            {
+                "query": "nice to meet you",
+                "response": "Nwice to meet cha too!"
+            },
+            {
+                "query": "howdy",
+                "response": "Howdy Mate!"
+            }
+        ]
+    },
+    "goodbyes": {
+        "patterns": [
+            "goodbye",
+            "farewell",
+            "see you later",
+            "take care",
+            "until next time",
+            "goodbye, have a great day",
+            "adios",
+            "bye for now",
+            "so long",
+            "bye-bye",
+            "take it easy",
+            "until we meet again",
+            "goodbye, stay safe",
+            "bye now"
+        ],
+        "responses": [
+            {
+                "query": "goodbye",
+                "response": "byee"
+            },
+            {
+                "query": "see you",
+                "response": "Until next time!"
+            }
+        ]
+    },
+    "insults": {
+        "patterns": [
+            "you're a fool",
+            "you suck",
+            "you're clueless",
+            "what a moron",
+            "you're a disappointment",
+            "you're so annoying",
+            "you're hopeless",
+            "you're a joke",
+            "you're a loser",
+            "you're such a nuisance",
+            "you're insufferable",
+            "you're incompetent",
+            "you're a waste of space",
+            "you're unbearable"
+        ],
+        "responses": [
+            {
+                "query": "you suck",
+                "response": "So do you, hoe"
+            }
+        ]
+    },
+    "compliments": {
+        "patterns": [
+            "you looks great",
+            "you're amazing",
+            "you're so talented",
+            "you're brilliant",
+            "you're outstanding",
+            "you're a star",
+            "you're a true inspiration",
+            "you're beautiful inside and out",
+            "you're incredibly creative",
+            "you're doing great",
+            "you're exceptional",
+            "you're a fantastic person",
+            "you're a joy to be around",
+            "you're truly impressive"
+        ],
+        "responses": [
+            {
+                "query": "you looks great",
+                "response": "Haha, thanks"
+            }
+        ]
+    },
+    "questions": {
+        "patterns": [
+            "what's your name",
+            "how are you",
+            "what do you like to do",
+            "can you help me",
+            "have you ever been to",
+            "what's your favorite color",
+            "do you have any pets",
+            "what's the meaning of life",
+            "where do you come from",
+            "what's your favorite food",
+            "how old are you",
+            "what's your favorite hobby",
+            "have you seen any good movies lately",
+            "what's the weather like today"
+        ],
+        "responses": [
+            {
+                "query": "what's your name",
+                "response": "My name is NeyBotsu"
+            }
+        ]
+    }
+}

@@ -1,86 +1,86 @@
 body {
-  background: linear-gradient(to bottom, #000019, #4400cc, #180757);
-  background-size: 800% 800%;
-  overflow: auto;
-  animation: background 30s ease-in-out infinite;
-  color: #fff;
-  text-align: center;
-  font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #000019, #4400cc, #180757);
+    background-size: 800% 800%;
+    overflow: auto;
+    animation: background 30s ease-in-out infinite;
+    color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
 }
 
 @keyframes background {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 90% 90%;
-  }
-  98% {
-    background-position: 0 0;
-  }
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 90% 90%;
+    }
+    98% {
+        background-position: 0 0;
+    }
 }
 
 @keyframes starter {
-  0% {
-    top: default;
-  }
-  35% {
-    top: -75px;
-  }
-  65% {
-    top: -75px;
-  }
-  98% {
-    top: default;
-  }
+    0% {
+        top: default;
+    }
+    35% {
+        top: -75px;
+    }
+    65% {
+        top: -75px;
+    }
+    98% {
+        top: default;
+    }
 }
 
 .container {
-  margin-top: 0px;
-  position: relative;
-  top: -20px;
-  padding: 20px;
-  animation: starter 1s ease-in-out;
-  animation-delay: 1s;
+    margin-top: 0px;
+    position: relative;
+    top: -20px;
+    padding: 20px;
+    animation: starter 1s ease-in-out;
+    animation-delay: 1s;
 }
 
 h4 {
-  font-size: 1.1rem;
-  margin-top: 70px;
-  position: relative;
-  top: 30px;
-  color: rgb(0, 0, 0);
+    font-size: 1.1rem;
+    margin-top: 70px;
+    position: relative;
+    top: 30px;
+    color: rgb(0, 0, 0);
 }
 
 img {
-  margin-top: 20px;
-  height: 200px;
-  border-radius: 50px;
+    margin-top: 20px;
+    height: 200px;
+    border-radius: 50px;
 }
 
 h1 {
-  position: relative;
-  top: -20px;
-  font-size: 3rem;
-  padding-bottom: 10px;
-  padding-top: 5px;
-  color: #ad3af0;
+    position: relative;
+    top: -20px;
+    font-size: 3rem;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    color: #ad3af0;
 }
 
 p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
 }
 
 .btn {
-  padding: 10px 30px;
-  background-color: #000019;
-  color: #fff;
-  border-color: #180757;
-  border-right-color: #5500cc;
-  border-bottom-color: #5500cc;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  text-transform: uppercase;
+    padding: 10px 30px;
+    background-color: #000019;
+    color: #fff;
+    border-color: #180757;
+    border-right-color: #5500cc;
+    border-bottom-color: #5500cc;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-transform: uppercase;
 }

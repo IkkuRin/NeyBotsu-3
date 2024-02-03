@@ -1,11 +1,11 @@
 {
-  "ownerID": "1161954482347847691",
-  "devsID": ["1161954482347847691"],
-  "globalColor": "#5c18a1",
-  "chatbot": {
-    "enabled": true,
-    "selfLearn": false,
-    "channelId": "1195872097008894053"
-  },
-  "supportServer": "https://discord.gg/qsayBrASr8"
+    "ownerID": "1161954482347847691",
+    "devsID": ["1161954482347847691"],
+    "globalColor": "#5c18a1",
+    "chatbot": {
+        "enabled": true,
+        "selfLearn": false,
+        "channelId": "1195872097008894053"
+    },
+    "supportServer": "https://discord.gg/qsayBrASr8"
 }
