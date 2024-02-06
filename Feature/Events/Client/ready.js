@@ -1,25 +1,31 @@
+// Importing console colors and handlers
+const {
+    fg,
+    bright,
+    reset
+} = require('../../../Structure/Modules/consoleColor');
+const {
+    commands,
+    buttons,
+    selectMenus,
+    modals
+} = require('../../../Structure/Handlers/allInOneHandler');
+
+// Exports module
 module.exports = {
     name: 'Ready',
     type: 'ready',
     once: true,
     exec(client) {
         const { guilds, user } = client;
-        const {
-            fg,
-            bright,
-            reset
-        } = require('../../../Structure/Function/consoleColor');
-        const {
-            consoleWait
-        } = require('../../../Structure/Function/consoleLoading');
-        const {
-            commands,
-            buttons
-        } = require('../../../Structure/Handlers/allInOneHandler');
 
-        commands(client);
+        // Calling the handlers function
+        selectMenus(client);
+        modals(client);
         buttons(client);
+        commands(client);
 
+        // Array of activities to display
         const activityArr = [
             user.username,
             `Servicing at ${guilds.cache.size} Servers~`,
@@ -28,53 +34,39 @@ module.exports = {
             `use /invite to invite me~`
         ];
 
-        function activityShuffle(arr, timer, mode) {
-            i = 0;
-            const randArr = () => {
-                return Math.floor(Math.random() * arr.length);
-            };
-            setInterval(async () => {
-                s = randArr();
-                mode = mode === 'shuffle' ? arr[s] : arr[i];
-                client.user.setActivity({
-                    name: mode,
-                    type: 4
-                });
-                i++;
-                i === activityArr.length ? (i = 0) : i;
-            }, timer);
-        }
+        // Call the activity shuffle function
+        activityShuffle(activityArr, client, 10000);
 
-        activityShuffle(activityArr, 10000);
-
-        const loadArr = [
-            `${fg.yellow}Initiating Client`,
-            `${fg.green}Client Online!`,
-            `${fg.yellow}Loading Files`,
-            `${fg.yellow}Validating Files`,
-            `${fg.green}All Files Successfully Loaded`,
-            `${fg.yellow}Connecting to Application`,
-            `${fg.green + bright}Connected to ${fg.yellow}NeyBotsu Application`,
-            `${fg.green}Initiating Bot`,
-            `${fg.green + bright}Client Connected to Discord as ${fg.magenta + client.user.username + reset}`
-        ];
-
-        if (client.settings.fancyStartup == true) {
-            consoleWait(loadArr[0], 4000, 500, loadArr[1], true);
-            setTimeout(() => {
-                consoleWait(loadArr[2], 6000, 500);
-            }, 4000);
-            setTimeout(() => {
-                consoleWait(loadArr[3], 8000, 500, loadArr[4], true);
-            }, 10000);
-            setTimeout(() => {
-                consoleWait(loadArr[5], 4000, 500, loadArr[6], true);
-            }, 18000);
-            setTimeout(() => {
-                consoleWait(loadArr[7], 6000, 500, loadArr[8], true);
-            }, 22000);
-        } else {
-            setTimeout(() => console.log(loadArr[8]), 2500);
-        }
+        // Log to the console that the bot is ready with 1s delay
+        setTimeout(
+            () =>
+                console.log(
+                    `${fg.green + bright + 'Client' + fg.white} Connected to Discord as ${fg.magenta + client.user.username + reset}`
+                ),
+            1000
+        );
     }
 };
+
+// Defining the activity shuffle function
+function activityShuffle(arr, client, timer, mode) {
+    i = 0; // Array counter
+
+    // Define array randomizer funtion
+    const randArr = () => {
+        return Math.floor(Math.random() * arr.length);
+    };
+    // Set activity interval
+    setInterval(async () => {
+        s = randArr(); // Call array randomizer function
+        mode = mode === 'shuffle' ? arr[s] : arr[i]; // Check if mode is shuffle or not
+        // Set activity
+        client.user.setActivity({
+            name: mode,
+            type: 4
+        });
+        //Increment the counter by 1 and check if counter value is greater than the array length
+        i++;
+        i === arr.length ? (i = 0) : i;
+    }, timer);
+}

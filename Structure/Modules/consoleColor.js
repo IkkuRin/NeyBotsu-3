@@ -6,7 +6,6 @@ const color = {
     blink: '\x1b[5m',
     reverse: '\x1b[7m',
     hidden: '\x1b[8m',
-
     fg: {
         black: '\x1b[30m',
         red: '\x1b[31m',
@@ -17,7 +16,7 @@ const color = {
         cyan: '\x1b[36m',
         white: '\x1b[37m',
         gray: '\x1b[90m',
-        crimson: '\x1b[38m' // Scarlet
+        crimson: '\x1b[38m'
     },
     bg: {
         black: '\x1b[40m',

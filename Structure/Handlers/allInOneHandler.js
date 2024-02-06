@@ -1,48 +1,95 @@
-const { loader } = require('../Function/loader');
+// Importing the file loader module
+const { loader } = require('../Modules/loader');
 
+// Defining the Commands and Contexts handlers
 async function commands(client) {
-    console.time('Commands Load Time');
+    // Start timer
+    console.time('Commands&Contexts Load Time');
 
+    // Clear collection and defining new arrays for commands and contexts
     await client.commands.clear;
     const commands = new Array();
     let commandsArray = new Array();
+    const contexts = new Array();
 
-    const files = await loader('Feature/Commands');
+    // Load commands and contexts file
+    const commandFiles = await loader('Feature/Commands');
+    const contextFiles = await loader('Feature/Contexts');
 
-    for (const file of files) {
+    // Looping through all the commands files
+    for (const file of commandFiles) {
         try {
-            const command = require(file);
-            client.commands.set(command.data.name, command);
-            commandsArray.push(command.data.toJSON());
+            const command = require(file); // Require the file
+            client.commands.set(command.data.name, command); // Set the command in the collection
+            commandsArray.push(command.data.toJSON()); // Push the command to the array for creating command application commands
 
+            // Push commands to the tables
             commands.push({
                 Command: command.data.name,
                 Status: 'Loaded'
             });
         } catch (error) {
-            console.error(error);
+            // Push failed commands to thr tables
+            const fileName = file.split('/').pop().slice(0, -3);
             commands.push({
-                Command: file.split('/').pop().slice(0, -3),
+                Command: fileName,
                 Status: 'Failed'
             });
+            // Logs the errors
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
         }
     }
 
+    // Looping through all the contexts files. same principles with commands one
+    for (const file of contextFiles) {
+        try {
+            const context = require(file);
+            client.contexts.set(context.data.name, context);
+            commandsArray.push(context.data.toJSON()); // we put context together with commands because they're essentially the same
+
+            contexts.push({
+                Context: context.data.name,
+                Status: 'Loaded'
+            });
+        } catch (error) {
+            const fileName = file.split('/').pop().slice(0, -3);
+            contexts.push({
+                Context: fileName,
+                Status: 'Failed'
+            });
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
+        }
+    }
+
+    // Creating the command application commands
     client.application.commands.set(commandsArray);
 
+    // Check if the commands array is empty and push empty array to the tables
     !commands.length
         ? commands.push({ Command: 'Empty', Status: 'No Commands Detected' })
         : commands;
+    // Check if the contexts array is empty and push empty array to the tables
+    !contexts.length
+        ? contexts.push({ Context: 'Empty', Status: 'No Context Detected' })
+        : contexts;
+    // Logs tables of commands and contexts and end the timer
     console.table(commands, ['Command', 'Status']);
-    console.timeEnd('Commands Load Time');
+    console.table(contexts, ['Context', 'Status']);
+    console.timeEnd('Commands&Contexts Load Time');
 }
 
+// Defining the Events handler
 async function events(client) {
+    // Start timer
     console.time('Events Load Time');
 
-    for (const [key, value] of client.events) {
-        await client.removeListener(`${key}`, value, true);
-    }
+    // Clear collection and define new array for events
     await client.events.clear;
     client.events = new Map();
     const events = new Array();
@@ -64,11 +111,15 @@ async function events(client) {
                 Status: 'Loaded'
             });
         } catch (error) {
-            console.error(error);
+            const fileName = file.split('/').pop().slice(0, -3);
             events.push({
-                Event: file.split('/').pop().slice(0, -3),
+                Event: fileName,
                 Status: 'Failed'
             });
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
         }
     }
 
@@ -90,18 +141,22 @@ async function buttons(client) {
     for (const file of files) {
         try {
             const button = require(file);
-            client.buttons.set(button.buttonId, button);
+            client.buttons.set(button.id, button);
 
             buttons.push({
                 Buttons: button.name,
                 Status: 'Loaded'
             });
         } catch (error) {
-            console.error(error);
+            const fileName = file.split('/').pop().slice(0, -3);
             buttons.push({
-                Buttons: file.split('/').pop().slice(0, -3),
+                Buttons: fileName,
                 Status: 'Failed'
             });
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
         }
     }
 
@@ -112,4 +167,82 @@ async function buttons(client) {
     console.timeEnd('Button Load Time');
 }
 
-module.exports = { commands, events, buttons };
+async function selectMenus(client) {
+    console.time('Select Menu Load Time');
+
+    client.selectMenus.clear();
+    let selectMenus = new Array();
+
+    const files = await loader('Feature/SelectMenus');
+
+    for (const file of files) {
+        try {
+            const menus = require(file);
+            client.selectMenus.set(menus.id, menus);
+
+            selectMenus.push({
+                SelectMenus: menus.name,
+                Status: 'Loaded'
+            });
+        } catch (error) {
+            const fileName = file.split('/').pop().slice(0, -3);
+            selectMenus.push({
+                SelectMenus: fileName,
+                Status: 'Failed'
+            });
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
+        }
+    }
+    !selectMenus.length
+        ? selectMenus.push({
+              SelectMenus: 'Empty',
+              Status: 'No Select Menu Detected'
+          })
+        : selectMenus;
+    console.table(selectMenus, ['SelectMenus', 'Status']);
+    console.timeEnd('Select Menu Load Time');
+}
+
+async function modals(client) {
+    console.time('Modals Load Time');
+
+    client.modals.clear();
+    let modals = new Array();
+
+    const files = await loader('Feature/Modals');
+
+    for (const file of files) {
+        try {
+            const modal = require(file);
+            client.modals.set(modal.id, modal);
+
+            modals.push({
+                Modals: modal.name,
+                Status: 'Loaded'
+            });
+        } catch (error) {
+            const fileName = file.split('/').pop().slice(0, -3);
+            modals.push({
+                Modals: fileName,
+                Status: 'Failed'
+            });
+            console.error(
+                `An error occured when loading "${fileName}": `,
+                error
+            );
+        }
+    }
+    !modals.length
+        ? modals.push({
+              Modals: 'Empty',
+              Status: 'No Modals Detected'
+          })
+        : modals;
+    console.table(modals, ['Modals', 'Status']);
+    console.timeEnd('Modals Load Time');
+}
+
+module.exports = { commands, events, buttons, selectMenus, modals };
