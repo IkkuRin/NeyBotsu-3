@@ -5,9 +5,9 @@
     "main": "Structure/index.js",
     "scripts": {
         "web": "npx nodemon Website/Server/express.js",
-        "format-all": "npx prettier --write .",
-        "format": "npx prettier --write",
-        "format-check": "npx prettier --check ."
+        "f-all": "npx prettier --write .",
+        "f-file": "npx prettier --write",
+        "f-check": "npx prettier --check ."
     },
     "keywords": [],
     "author": "",

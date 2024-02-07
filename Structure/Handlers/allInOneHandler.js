@@ -1,5 +1,6 @@
 // Importing the file loader module
 const { loader } = require('../Modules/loader');
+const { fg, bright, reset } = require('../Modules/consoleColor');
 
 // Defining the Commands and Contexts handlers
 async function commands(client) {
@@ -18,9 +19,11 @@ async function commands(client) {
 
     // Looping through all the commands files
     for (const file of commandFiles) {
+        // Check if the folder the file is a subfolders and skip the file
+        if (skipFolders(file)) continue;
         try {
             const command = require(file); // Require the file
-            client.commands.set(command.data.name, command); // Set the command in the collection
+            client.commands.set(command.data.name, command); // Set the command to the collection
             commandsArray.push(command.data.toJSON()); // Push the command to the array for creating command application commands
 
             // Push commands to the tables
@@ -45,6 +48,7 @@ async function commands(client) {
 
     // Looping through all the contexts files. same principles with commands one
     for (const file of contextFiles) {
+        if (skipFolders(file)) continue;
         try {
             const context = require(file);
             client.contexts.set(context.data.name, context);
@@ -94,28 +98,39 @@ async function events(client) {
     client.events = new Map();
     const events = new Array();
 
+    // Load events files
     const files = await loader('Feature/Events');
-    for (const file of files) {
-        try {
-            const event = require(file);
 
+    // Looping through all the events files
+    for (const file of files) {
+        // Check if the folder the file is a subfolders and skip the file
+        if (skipFolders(file)) continue;
+        try {
+            const event = require(file); // Require the file
+
+            // Creating the execute function
             const exec = (...args) => event.exec(...args, client);
 
+            // Check if the events is a once event
             const target = event.rest ? client.rest : client;
             target[event.once ? 'once' : 'on'](event.type, exec);
 
+            // Set the event to the collection
             client.events.set(event.type, exec);
 
+            // Push events to the tables
             events.push({
                 Event: event.name,
                 Status: 'Loaded'
             });
         } catch (error) {
+            // Push failed events to the tables
             const fileName = file.split('/').pop().slice(0, -3);
             events.push({
                 Event: fileName,
                 Status: 'Failed'
             });
+            // Logs the errors
             console.error(
                 `An error occured when loading "${fileName}": `,
                 error
@@ -123,13 +138,16 @@ async function events(client) {
         }
     }
 
+    // Check if the events array is empty and push empty array to the tables
     !events.length
         ? events.push({ Event: 'Empty', Status: 'No Events Detected' })
         : events;
+    // Logs tables of events and end the timer
     console.table(events, ['Event', 'Status']);
     console.timeEnd('Events Load Time');
 }
 
+// Everything else follows the same principles
 async function buttons(client) {
     console.time('Button Load Time');
 
@@ -139,6 +157,7 @@ async function buttons(client) {
     const files = await loader('Feature/Buttons');
 
     for (const file of files) {
+        if (skipFolders(file)) continue;
         try {
             const button = require(file);
             client.buttons.set(button.id, button);
@@ -176,6 +195,7 @@ async function selectMenus(client) {
     const files = await loader('Feature/SelectMenus');
 
     for (const file of files) {
+        if (skipFolders(file)) continue;
         try {
             const menus = require(file);
             client.selectMenus.set(menus.id, menus);
@@ -215,6 +235,7 @@ async function modals(client) {
     const files = await loader('Feature/Modals');
 
     for (const file of files) {
+        if (skipFolders(file)) continue;
         try {
             const modal = require(file);
             client.modals.set(modal.id, modal);
@@ -245,4 +266,19 @@ async function modals(client) {
     console.timeEnd('Modals Load Time');
 }
 
+// Define skip folder function
+function skipFolders(file) {
+    let fileLog = fg.yellow + file.split('/').pop() + reset;
+    // Checks if the folder the files is in starts with '@'
+    if (file.split('/').slice(0, -1).pop().startsWith('@')) {
+        // Logs the skipped files and folders
+        console.log(
+            `${fg.green + bright + '[HANDLERS]' + reset} Skipped ${fileLog} inside ${fg.yellow + file.split('/').slice(0, -1).pop() + reset}`
+        );
+        return true;
+    } // Return true if the folders is a subfolder and false if not
+    return false;
+}
+
+// Exports all the function module
 module.exports = { commands, events, buttons, selectMenus, modals };
