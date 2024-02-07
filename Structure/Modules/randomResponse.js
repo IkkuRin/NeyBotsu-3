@@ -1,48 +1,42 @@
 const er = require('../Storage/RandomResponse/embedArray');
 const tr = require('../Storage/RandomResponse/responseArray');
 
-class randRes {
-    constructor(from, parts, inter, cli) {
-        this.parts = parts;
-        this.from = from;
-        this.cli = cli;
-        this.inter = inter;
-        this.randomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
-        this.incAndReplace = (input, toReplace, replaceWith) => {
+function randRes (from, parts, inter, cli) {
+        var randomizer = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        var incAndReplace = (input, toReplace, replaceWith) => {
             do {
                 input = input.replace(toReplace, replaceWith);
             } while (input.includes(toReplace));
             return input;
         };
-    }
 
-    embeds() {
+    const embeds = () => {
         var embeds = new Object();
 
-        var embedFrom = er[this.from];
-        var embedParts = embedFrom[this.parts];
-        const MorI = this.inter?.user ?? this.inter?.author;
+        var embedFrom = er[from];
+        var embedParts = embedFrom[parts];
+        const MorI = inter?.user ?? inter?.author;
 
-        embeds['title'] = this.randomizer(embedParts.title);
-        embeds['description'] = this.randomizer(embedParts.description);
+        embeds['title'] = randomizer(embedParts.title);
+        embeds['description'] = randomizer(embedParts.description);
 
-        embeds.title = this.incAndReplace(
+        embeds.title = incAndReplace(
             embeds['title'],
             '@me',
-            this.cli.user.username
+            cli.user.username
         );
-        embeds.description = this.incAndReplace(
+        embeds.description = incAndReplace(
             embeds['description'],
             '@me',
-            this.cli.user.username
+            cli.user.username
         );
 
-        embeds.title = this.incAndReplace(
+        embeds.title = incAndReplace(
             embeds['title'],
             '@user',
             MorI.username
         );
-        embeds.description = this.incAndReplace(
+        embeds.description = incAndReplace(
             embeds['description'],
             '@user',
             MorI
@@ -51,20 +45,25 @@ class randRes {
         return embeds;
     }
 
-    texts() {
-        var textFrom = tr[this.from];
-        var textParts = textFrom[this.parts];
-        const MorI = this.inter?.user ?? this.inter?.author;
+    const texts = () => {
+        var textFrom = tr[from];
+        var textParts = textFrom[parts];
+        const MorI = inter?.user ?? inter?.author;
 
-        textParts = this.incAndReplace(
+        textParts = incAndReplace(
             textParts,
             '@me',
-            this.cli.user.username
+            cli.user.username
         );
-        textParts = this.incAndReplace(textParts, '@user', MorI);
+        textParts = incAndReplace(textParts, '@user', MorI);
 
-        return this.randomizer(textParts);
+        return randomizer(textParts);
     }
+
+	return {
+		texts,
+		embeds
+	}
 }
 
 module.exports = randRes;
