@@ -12,8 +12,10 @@ const cd = new Collection();
 async function ContextInteraction(inter, cli) {
     // Check if the interaction is a context menu interaction
     if (!inter.isContextMenuCommand()) return;
-    const { member } = inter;
+    const { member, channel } = inter;
 
+    await channel.sendTyping();
+    
     // Get the context command from the collection
     const context = await cli.contexts.get(inter.commandName);
 
