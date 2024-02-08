@@ -20,7 +20,13 @@ async function commands(client) {
     // Looping through all the commands files
     for (const file of commandFiles) {
         // Check if the folder the file is a subfolders and skip the file
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            commands.push({
+                Event: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };        
         try {
             const command = require(file); // Require the file
             client.commands.set(command.data.name, command); // Set the command to the collection
@@ -48,7 +54,13 @@ async function commands(client) {
 
     // Looping through all the contexts files. same principles with commands one
     for (const file of contextFiles) {
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            contexts.push({
+                Context: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };
         try {
             const context = require(file);
             client.contexts.set(context.data.name, context);
@@ -104,7 +116,13 @@ async function events(client) {
     // Looping through all the events files
     for (const file of files) {
         // Check if the folder the file is a subfolders and skip the file
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            events.push({
+                Event: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };
         try {
             const event = require(file); // Require the file
 
@@ -157,7 +175,13 @@ async function buttons(client) {
     const files = await loader('Feature/Buttons');
 
     for (const file of files) {
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            buttons.push({
+                Button: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };
         try {
             const button = require(file);
             client.buttons.set(button.id, button);
@@ -195,7 +219,13 @@ async function selectMenus(client) {
     const files = await loader('Feature/SelectMenus');
 
     for (const file of files) {
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            selectMenus.push({
+                Event: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };
         try {
             const menus = require(file);
             client.selectMenus.set(menus.id, menus);
@@ -235,7 +265,13 @@ async function modals(client) {
     const files = await loader('Feature/Modals');
 
     for (const file of files) {
-        if (skipFolders(file)) continue;
+        if (skipFolders(file)) {
+            modals.push({
+                Event: file.split('/').pop().slice(0, -3),
+                Status: 'SubFolders'
+            });
+            continue;
+        };
         try {
             const modal = require(file);
             client.modals.set(modal.id, modal);
@@ -273,7 +309,7 @@ function skipFolders(file) {
     if (file.split('/').slice(0, -1).pop().startsWith('@')) {
         // Logs the skipped files and folders
         console.log(
-            `${fg.green + bright + '[HANDLERS]' + reset} Skipped ${fileLog} inside ${fg.yellow + file.split('/').slice(0, -1).pop() + reset}`
+            `${fg.green + bright + '[HANDLERS]' + reset} Skipped ${fileLog}`
         );
         return true;
     } // Return true if the folders is a subfolder and false if not
