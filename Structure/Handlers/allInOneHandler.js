@@ -26,7 +26,7 @@ async function commands(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };        
+        }
         try {
             const command = require(file); // Require the file
             client.commands.set(command.data.name, command); // Set the command to the collection
@@ -60,7 +60,7 @@ async function commands(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };
+        }
         try {
             const context = require(file);
             client.contexts.set(context.data.name, context);
@@ -122,7 +122,7 @@ async function events(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };
+        }
         try {
             const event = require(file); // Require the file
 
@@ -181,7 +181,7 @@ async function buttons(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };
+        }
         try {
             const button = require(file);
             client.buttons.set(button.id, button);
@@ -225,7 +225,7 @@ async function selectMenus(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };
+        }
         try {
             const menus = require(file);
             client.selectMenus.set(menus.id, menus);
@@ -271,7 +271,7 @@ async function modals(client) {
                 Status: 'SubFolders'
             });
             continue;
-        };
+        }
         try {
             const modal = require(file);
             client.modals.set(modal.id, modal);

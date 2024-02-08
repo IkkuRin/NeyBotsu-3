@@ -25,7 +25,7 @@ async function SlashInteraction(inter, cli) {
     const permsList = {
         bot: permsChecker(command).bot
             ? command.perms.bot.map().join(', ')
-            : null
+            : 'Target Has Higher Role Hierarchy'
     };
 
     // Embeds and Buttons Definition

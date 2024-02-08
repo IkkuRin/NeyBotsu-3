@@ -1,18 +1,22 @@
 const {
     EmbedBuilder,
-    ContextMenuCommandBuilder,
-    ApplicationCommandType,
+    SlashCommandBuilder,
     ButtonBuilder,
     ActionRowBuilder
 } = require('discord.js');
 
 module.exports = {
     cooldown: 20000,
-    data: new ContextMenuCommandBuilder()
-        .setName('Avatar')
-        .setType(ApplicationCommandType.User),
-    async exec(cli, inter) {
-        const user = inter.targetUser;
+    data: new SlashCommandBuilder()
+        .setName('avatar')
+        .setDescription('Display users avatar')
+        .addUserOption((opt) =>
+            opt
+                .setName('user')
+                .setDescription('The user to get the avatar from')
+        ),
+    exec(cli, inter) {
+        const user = inter.options.getUser('user') ?? inter.user;
 
         const avatar = asset(cli, user);
 
