@@ -1,17 +1,18 @@
 const {
-	ContextMenuCommandBuilder,
-	ApplicationCommandType,
-	EmbedBuilder,
+    ContextMenuCommandBuilder,
+    ApplicationCommandType,
+    EmbedBuilder
 } = require('discord.js');
 const moment = require('moment');
-var emoji = require(process.cwd() + '/Structure/Storage/Assets/Emojis/emojis.js');
-
+var emoji = require(
+    process.cwd() + '/Structure/Storage/Assets/Emojis/emojis.json'
+);
 
 module.exports = {
-	data: new ContextMenuCommandBuilder()
-		.setName('Whois')
-		.setType(ApplicationCommandType.User),
-	exec (cli, inter ) {
+    data: new ContextMenuCommandBuilder()
+        .setName('Whois')
+        .setType(ApplicationCommandType.User),
+    exec(cli, inter) {
         const member = inter.targetMember;
 
         const about = {
@@ -36,7 +37,7 @@ module.exports = {
                 status = {
                     status: 'Online',
                     emoji: emoji.online
-                };;
+                };
                 break;
             case 'idle':
                 status = {
@@ -61,9 +62,10 @@ module.exports = {
         const descArr = [
             `# ${member.user.username.toUpperCase()}`,
             `***${status.emoji} ${status.status}***`
-            ];
-        
-        const formattedTime = (ms) => moment(ms).format('ddd, MMM Do YYYY | hh:mmA');
+        ];
+
+        const formattedTime = (ms) =>
+            moment(ms).format('ddd, MMM Do YYYY | hh:mmA');
 
         const embed = new EmbedBuilder()
             .setColor(cli.color)
@@ -111,7 +113,9 @@ module.exports = {
                 },
                 {
                     name: `Banner`,
-                    value: about.banner ? `[Link](${about.banner})` : `**Color:** \` ${about.color} \``,
+                    value: about.banner
+                        ? `[Link](${about.banner})`
+                        : `**Color:** \` ${about.color} \``
                 }
             )
             .setFooter({
@@ -123,6 +127,5 @@ module.exports = {
         if (about.banner) embed.setImage(about.banner);
 
         inter.reply({ embeds: [embed] });
-	}
-}
-
+    }
+};

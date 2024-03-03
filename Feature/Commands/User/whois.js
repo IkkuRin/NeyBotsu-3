@@ -1,9 +1,8 @@
-const {
-    SlashCommandBuilder,
-    EmbedBuilder
-} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const moment = require('moment');
-var emoji = require(process.cwd() + '/Structure/Storage/Assets/Emojis/emojis.js');
+const fs = require('fs');
+
+const emoji = JSON.parse(fs.readFileSync('Structure/Storage/Assets/Emojis/emojis.json'));
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,6 +20,7 @@ module.exports = {
             tag: member.user.tag,
             dName: member.user.globalName,
             nick: member.nickname,
+            bot: member.user.bot,
             id: member.user.id,
             created: member.user.createdTimestamp,
             joined: member.joinedTimestamp,
@@ -39,7 +39,7 @@ module.exports = {
                 status = {
                     status: 'Online',
                     emoji: emoji.online
-                };;
+                };
                 break;
             case 'idle':
                 status = {
@@ -61,18 +61,26 @@ module.exports = {
                 break;
         }
 
-        const descArr = [
-            `# ${member.user.username.toUpperCase()}`,
-            `***${status.emoji} ${status.status}***`
-            ];
-        
-        const formattedTime = (ms) => moment(ms).format('ddd, MMM Do YYYY | hh:mmA');
+        const badges = new Array();
+        if (member.user.flags.toArray()) {
+            for (const badge of member.user.flags.toArray()) {
+                badges.push({
+                    name: badge,
+                    emoji: cli.emojis.resolve(e => e.id == emoji[badge].id)
+                });
+            }
+        }
+
+        const formattedTime = (ms) =>
+            moment(ms).format('ddd, MMM Do YYYY | hh:mmA');
 
         const embed = new EmbedBuilder()
             .setColor(cli.color)
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .setTitle(`Member Information`)
-            .setDescription(descArr.join('\n'))
+            .setDescription(
+                `# ${member.user.username.toUpperCase()}${about.bot ? ` ***\` Bots \`***` : ''}\n**${status.emoji} ${status.status}**\n**Badges:**\n${badges.map((b) => b.emoji || b.name).join(' ')}`
+            )
             .addFields(
                 {
                     name: 'Username',
@@ -110,11 +118,13 @@ module.exports = {
                 },
                 {
                     name: `Roles`,
-                    value: about.roles ?? '**Has no roles**'
+                    value: about.roles || '**Has no roles**'
                 },
                 {
                     name: `Banner`,
-                    value: about.banner ? `[Link](${about.banner})` : `**Color:** \` ${about.color} \``,
+                    value: about.banner
+                        ? `[Link](${about.banner})`
+                        : `**Color:** \` ${about.color} \``
                 }
             )
             .setFooter({

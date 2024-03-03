@@ -1,0 +1,112 @@
+{
+    "online": {
+        "emoji": "<:online:1205174497364279337>",
+        "name": "online",
+        "id": "1205174497364279337"
+    },
+    "offline": {
+        "emoji": "<:offline:1205174501474828399>",
+        "name": "offline",
+        "id": "1205174501474828399"
+    },
+    "dnd": {
+        "emoji": "<:dnd:1205174493903855647>",
+        "name": "dnd",
+        "id": "1205174493903855647"
+    },
+    "idle": {
+        "emoji": "<:idle:1205174509456597142>",
+        "name": "idle",
+        "id": "1205174509456597142"
+    },
+    "username": {
+        "emoji": "<:username:1205301956248076328>",
+        "name": "username",
+        "id": "1205301956248076328"
+    },
+    "Partner": {
+        "emoji": "<:PartneredServerOwner:1205305651212066836>",
+        "name": "PartneredServerOwner",
+        "id": "1205305651212066836"
+    },
+    "ActiveDeveloper": {
+        "emoji": "<:ActiveDevs:1205305549181423666>",
+        "name": "ActiveDevs",
+        "id": "1205305549181423666"
+    },
+    "Staff": {
+        "emoji": "<:Staff:1205305553694359583>",
+        "name": "Staff",
+        "id": "1205305553694359583"
+    },
+    "CertifiedModerator": {
+        "emoji": "<:CertifiedModerator:1205305572325466152>",
+        "name": "CertifiedModerator",
+        "id": "1205305572325466152"
+    },
+    "BugHunterLevel2": {
+        "emoji": "<:BugHunter2:1205305589031374858>",
+        "name": "BugHunter2",
+        "id": "1205305589031374858"
+    },
+    "VerifiedDeveloper": {
+        "emoji": "<:EarlyDevs:1205305603958771784>",
+        "name": "EarlyDevs",
+        "id": "1205305603958771784"
+    },
+    "CertifiedModeratorOld": {
+        "emoji": "<:ModeratorAlumni:1205305609080021004>",
+        "name": "ModeratorAlumni",
+        "id": "1205305609080021004"
+    },
+    "VerifiedBot": {
+        "emoji": "<:Verified:1205305626134192188>",
+        "name": "Verified",
+        "id": "1205305626134192188"
+    },
+    "HypesquadAnimated": {
+        "emoji": "<:Hypesquad:1205305633943851008>",
+        "name": "Hypesquad",
+        "id": "1205305633943851008"
+    },
+    "Nitro": {
+        "emoji": "<:Nitro:1205305637941022780>",
+        "name": "Nitro",
+        "id": "1205305637941022780"
+    },
+    "ServerSubscription": {
+        "emoji": "<:ServerSubscription:1205305656530182144>",
+        "name": "ServerSubscription",
+        "id": "1205305656530182144"
+    },
+    "BugHunterLevel1": {
+        "emoji": "<:BigHunter1:1205305667728965683>",
+        "name": "BigHunter1",
+        "id": "1205305667728965683"
+    },
+    "Hypesquad": {
+        "emoji": "<:HypesquadEvent:1205305760117030923>",
+        "name": "HypesquadEvent",
+        "id": "1205305760117030923"
+    },
+    "HypeSquadOnlineHouse3": {
+        "emoji": "<:HouseOfBalance:1205305765657583646>",
+        "name": "HouseOfBalance",
+        "id": "1205305765657583646"
+    },
+    "HypeSquadOnlineHouse1": {
+        "emoji": "<:HouseOfBravery:1205305772054155264>",
+        "name": "HouseOfBravery",
+        "id": "1205305772054155264"
+    },
+    "HypeSquadOnlineHouse2": {
+        "emoji": "<:HouseOfBriliance:1205305782615154768>",
+        "name": "HouseOfBriliance",
+        "id": "1205305782615154768"
+    },
+    "PremiumEarlySupporter": {
+        "emoji": "<:EarlySupporter:1205319298726498344>",
+        "name": "EarlySupporter",
+        "id": "1205319298726498344"
+    }
+}

@@ -14,7 +14,7 @@ async function SlashInteraction(inter, cli) {
     if (!inter.isChatInputCommand()) return;
 
     await inter.channel.sendTyping();
-    
+
     // Get commands from the collection
     const command = await cli.commands.get(inter.commandName);
 

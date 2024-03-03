@@ -14,28 +14,53 @@ const {
 } = require('discord.js');
 // Destructuring even more stuff from discord.js GatewayIntentBits
 const {
-    Guilds,
+    AutoModerationConfiguration,
+    AutoModerationExecution,
+    DirectMessageReactions,
+    DirectMessageTyping,
+    DirectMessages,
+    GuildEmojisAndStickers,
+    GuildIntegrations,
+    GuildInvites,
     GuildMembers,
+    GuildMessageReactions,
+    GuildMessageTyping,
     GuildMessages,
-    MessageContent,
+    GuildModeration,
     GuildPresences,
-    GuildBans,
-    GuildVoiceStates
+    GuildScheduledEvents,
+    GuildVoiceStates,
+    GuildWebhooks,
+    Guilds,
+    MessageContent
 } = GatewayIntentBits;
+const intents = [
+    AutoModerationConfiguration,
+    AutoModerationExecution,
+    DirectMessageReactions,
+    DirectMessageTyping,
+    DirectMessages,
+    GuildEmojisAndStickers,
+    GuildIntegrations,
+    GuildInvites,
+    GuildMembers,
+    GuildMessageReactions,
+    GuildMessageTyping,
+    GuildMessages,
+    GuildModeration,
+    GuildPresences,
+    GuildScheduledEvents,
+    GuildVoiceStates,
+    GuildWebhooks,
+    Guilds,
+    MessageContent
+];
 // More destructuring from discord.js Partials
 const { User, Message, GuildMember, ThreadMember } = Partials;
 
 // Create a new client instance
 const client = new Client({
-    intents: [
-        Guilds,
-        GuildMembers,
-        GuildMessages,
-        MessageContent,
-        GuildPresences,
-        GuildBans,
-        GuildVoiceStates
-    ],
+    intents: intents,
     partials: [User, Message, GuildMember, ThreadMember]
 });
 
@@ -63,3 +88,5 @@ client
     .login(process.env.Token)
     .catch((e) => console.error('Unable to connect to discord: ', e));
 // Catch any error that happens
+
+client.on('debug', console.log).on('warn', console.log);

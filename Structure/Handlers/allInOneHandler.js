@@ -4,6 +4,7 @@ const { fg, bright, reset } = require('../Modules/consoleColor');
 
 // Defining the Commands and Contexts handlers
 async function commands(client) {
+    const supportServer = await client.guilds.fetch(client.settings.supportServer.id)
     // Start timer
     console.time('Commands&Contexts Load Time');
 
@@ -11,6 +12,7 @@ async function commands(client) {
     await client.commands.clear;
     const commands = new Array();
     let commandsArray = new Array();
+    let devCommands = new Array();
     const contexts = new Array();
 
     // Load commands and contexts file
@@ -85,6 +87,7 @@ async function commands(client) {
 
     // Creating the command application commands
     client.application.commands.set(commandsArray);
+    supportServer.commands.set(devCommands);
 
     // Check if the commands array is empty and push empty array to the tables
     !commands.length

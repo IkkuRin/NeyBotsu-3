@@ -5,7 +5,7 @@ function meTags(message, cli) {
     if (message.author.bot) return;
     if (!message.mentions.has(cli.user.id)) return;
     const prop = randRes('tagEvent', 'response', message, cli).embeds();
-   
+
     message.channel.sendTyping();
 
     const embeds = new EmbedBuilder()

@@ -2,5 +2,7 @@
     "ownerID": "1161954482347847691",
     "devsID": ["1161954482347847691"],
     "globalColor": "#5c18a1",
-    "supportServer": "https://discord.gg/qsayBrASr8"
+    "supportServer": {
+        "id": "1189297412150399056",
+        "invite": "https://discord.gg/qsayBrASr8"
 }

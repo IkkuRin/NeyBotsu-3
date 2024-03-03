@@ -15,7 +15,7 @@ async function ContextInteraction(inter, cli) {
     const { member, channel } = inter;
 
     await channel.sendTyping();
-    
+
     // Get the context command from the collection
     const context = await cli.contexts.get(inter.commandName);
 
