@@ -89,4 +89,4 @@ client
     .catch((e) => console.error('Unable to connect to discord: ', e));
 // Catch any error that happens
 
-client.on('debug', console.log).on('warn', console.log);
+//client.on('debug', console.log).on('warn', console.log);

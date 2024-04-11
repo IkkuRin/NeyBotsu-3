@@ -48,7 +48,7 @@ async function ContextInteraction(inter, cli) {
             .setLabel('Support Server')
             .setStyle('Link')
             .setEmoji('🌐')
-            .setURL(cli.settings.supportServer)
+            .setURL(cli.settings.supportServer.url)
     );
     const botPermissionEmbed = new EmbedBuilder()
         .setColor(cli.color)

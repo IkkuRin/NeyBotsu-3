@@ -12,3 +12,7 @@ language = "nodejs"
 run = "node -r repl.uptime/start Structure/index.js"
 deploymentTarget = "cloudrun"
 ignorePorts = false
+
+[[ports]]
+localPort = 8080
+externalPort = 80
